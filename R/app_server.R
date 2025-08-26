@@ -172,12 +172,8 @@ observeEvent(selected_data(), {
       qq_normal = HTML("
 <div style='font-size:120%;'>
   <p></p>
-  <p><b>QQ plots</b> compare the proportion of your data below each value (empirical CDF) to the proportion you'd expect under a bell curve (theoretical CDF).</p>
-  <p>When the data are normally distributed, points fall close to the line, with small random variation.</p>
-  <p>An inverted-U-shaped curve, with points near the reference line in the center and below it at the tails, indicates right-skewed data.</p>
-  <p>A U-shaped curve, with points resting near the reference line in the center and above it at the tails, indicates left-skewed data.</p>
-  <p>Positive kurtosis (heavy tails) is indicated when points appear below the reference line on the left and above it on the right.</p>
-  <p>Negative kurtosis (light tails) is indicated when points appear above the reference line on the left and  below it on the right.</p>
+  <p><b>QQ plots</b> compare your data’s sample quantiles (dots) to the theoretical normal quantiles (reference line).</p>
+  <p>When the data are normal, points lie close to a straight line with small random deviations.</p>
 </div>
 "),
       
@@ -185,12 +181,9 @@ observeEvent(selected_data(), {
       qq_detrended = HTML("
 <div style='font-size:120%;'>
   <p></p>
-  <p><b>Detrended QQ plots</b> compare observed quantiles (dots) to normal quantiles by plotting their vertical differences (observed - theoretical) against the normal quantiles.</p>
+  <p><b>Detrended QQ plots</b> display the distance of observed quantiles (dots) to normal quantiles by plotting their vertical differences (observed - theoretical) against a reference line of 0.</p>
+  <p>The x-axis shows the theoretical quantiles, and the y-axis shows the value of observed - theoretical quantiles.</p>
   <p>When the data are normally distributed, points fall close to the horizontal reference line at zero, with small random variation.</p>
-  <p>A U-shaped curve, with points near the reference line in the center and above it at the tails, indicates right-skewed data.</p>
-  <p>An inverted-U-shaped curve, with points near the reference line in the center and below it at the tails, indicates left-skewed data.</p>
-  <p>Positive kurtosis (heavy tails) is indicated by an S-shaped curve, with points above the line in the left tail and below it in the right tail.</p>
-  <p>Negative kurtosis (light tails) is indicated by an inverted S-shaped curve, with points below the line in the left tail and above it in the right tail.</p>
 </div>
 "),
       
@@ -198,11 +191,7 @@ observeEvent(selected_data(), {
       pp_plot = HTML("
 <div style='font-size:120%;'>
   <p><b>PP plots</b> compare your empirical CDF (proportion <= x) with the normal CDF.</p>
-  <p>If the data are approximately normal, points track the diagonal reference line.</p>
-  <p>Right-skew produces an inverted-U shape: points lie near the line in the center and below it at the tails.</p>
-  <p>Left-skew produces a U shape: points lie near the line in the center and above it at the tails.</p>
-  <p>Positive kurtosis (heavy tails) produces an inverted S-shape: points lie above the line on the left and below it on the right.</p>
-  <p>Negative kurtosis (light tails) produces an S-shape: points lie below the line on the left and above it on the right.</p></div>
+  <p>If the data are approximately normal, points hug the diagonal reference line.</p>
 "),
       
       
@@ -213,12 +202,6 @@ observeEvent(selected_data(), {
   <p><b>Histograms</b> shows how often values fall into bins, with two overlays:</p>
   <p>- The dotted curve (kernel density estimate) tracing your data's shape.</p>
   <p>- The solid bell curve (normal density) showing how a normal distribution would look.</p>
-  <p>Right-skew (positive skewness) produces a long right tail: bars and the density peak left of center.</p>
-  <p>Left-skew (negative skewness) produces a long left tail: bars and the density peak right of center.</p>
-  <p>Positive kurtosis (heavy tails) produces plots with a higher central peak and higher-density tails.</p>
-  <p>Negative kurtosis (light tails) produces plots with a flatter central peak and shorter, thinner tails.</p>
-</div>
-
 </div>
 "),
       

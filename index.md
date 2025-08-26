@@ -3,7 +3,6 @@ title: "exsampler"
 ---
 
 ## Overview
-This page provides an overview of the exsampler package.
 
 **exsampler** is a tool to assist visual inspection of (non)normality. It displays a 3×3 grids of either histograms, QQ plots, detrended QQ plots, or PP Plots where one randomly assigned plot contains the real data and the seven other plots contain data sampled from simulated normal distributions (Shapiro–Wilk p's > 0.05) with the same number of observations, mean, and standard deviation (and optionally, the same rounding). 
 
