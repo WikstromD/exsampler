@@ -75,7 +75,7 @@
 <p><strong>exsampler</strong> is a tool to assist visual inspection of
 (non)normality. It displays a 3×3 grids of either histograms, QQ plots,
 detrended QQ plots, or PP Plots where one randomly assigned plot
-contains the real data and the seven other plots contain data sampled
+contains the real data and the eight other plots contain data sampled
 from simulated normal distributions (Shapiro–Wilk <em>p</em>’s &gt;
 0.05) with the same number of observations<em>,</em> mean, and standard
 deviation (and optionally, the same rounding). Plots from simulated data
@@ -118,27 +118,27 @@ deviation. Below is an illustrative example using the variable
 normal curves using <code>ggplot2.</code>
 </li>
 </ul>
-<p><img src="exsampler-get-started_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="fig/250825HeavySkewHistogram.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
 <strong>QQ plot</strong> – compares sample quantiles to a normal
 reference line using <code>qqplotr</code>.</li>
 </ul>
-<p><img src="exsampler-get-started_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="fig/250825HeavySkewQQ.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
 <strong>Detrended QQ plot</strong> – compare quantiles’ deviation
 from what’s expected from a normal distribution using
 <code>qqplotr</code>.</li>
 </ul>
-<p><img src="exsampler-get-started_files/figure-html/unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="fig/250825HeavySkewDetrendedQQ.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
 <strong>PP plot</strong> – plots the proportion of observations at
 or below each value against the proportion predicted by a normal model
 using <code>qqplotr</code>.</li>
 </ul>
-<p><img src="exsampler-get-started_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="fig/250825HeavySkewPP.png" width="80%" style="display: block; margin: auto;"></p>
 <p>Click <strong>Generate Plots</strong> to create a fresh grid of
 simulations. The sidebar lets you choose the variable, plot type, and
 whether to match simulated data <strong>granularity</strong> (useful for
