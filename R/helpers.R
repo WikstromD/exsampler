@@ -79,13 +79,16 @@ estimate_data_increment <- estimate_data_increment <- function(x, max_decimals =
 #'
 #' Ensures each simulated sample passes a Shapiro–Wilk normality test at
 #' p > `p_thresh` (defaults to 0.05), up to `max_attempts` retries (default = 50).
+#' Normality is tested on the unrounded draw; Shapiro–Wilk is run only for
+#' 3 <= N <= 5000, and acceptance also requires small sample skewness and
+#' excess kurtosis (|skew| < 3*sqrt(6/N), |excess kurtosis| < 3*sqrt(24/N)).
 #'
 #' @param data A data.frame containing the real observations.
 #' @param variable_name Character; the name of the numeric column in `data` to simulate from.
-#' @param seed_modifier Integer; seed for `set.seed()`, so each click gives a new shuffle.
+#' @param seed_modifier Integer; seed for `set.seed()` (controls simulated draws; pane order is randomized per call).
 #' @param n Integer; total number of grids (1 real +7).
 #' @param match_increment Logical; if `TRUE`, rounds simulated values to the same increment as the real data (via `estimate_data_increment`).
-#' @param p_thresh Numeric; required Shapiro–Wilk p-value threshold (default 0.01).
+#' @param p_thresh Numeric; required Shapiro–Wilk p-value threshold (default 0.05; when applicable).
 #' @param max_attempts Integer; max resimulation attempts per simulated sample (default 50).
 #'
 #' @return A list with elements:
@@ -95,8 +98,16 @@ estimate_data_increment <- estimate_data_increment <- function(x, max_decimals =
 #' * `real_position`: the 1-based index in `shuffled_data_frames` where the real data landed.
 #' * `grid_cols`: integer number of columns for layout (fixed at 3).
 #'
+#' @details Simulated values are returned rounded to the detected increment when
+#' `match_increment = TRUE`; tests are always run on the unrounded draw. If no
+#' attempt meets the accept criteria within `max_attempts`, the attempt with the
+#' highest Shapiro–Wilk p-value (when available) is returned; otherwise, the last
+#' attempt is returned. Degenerate inputs with non-finite or zero SD return a
+#' constant vector for that simulated panel.
+#'
 #' @importFrom purrr map imap set_names
-#' @importFrom stats rnorm shapiro.test
+#' @importFrom stats rnorm shapiro.test sd
+ 
 generate_random_data_for_plot_grid <- function(
     data, variable_name,
     seed_modifier = 1,
@@ -126,36 +137,59 @@ generate_random_data_for_plot_grid <- function(
     best_sim <- NULL
     best_p   <- -Inf
     last_sim <- NULL
+    # N-aware thresholds (≈ 3×SE under normality)
+    t_sk <- 3 * sqrt(6 / N)
+    t_k  <- 3 * sqrt(24 / N)
     
     for (i in seq_len(max_attempts)) {
       # diversify randomness for each sim/attempt
       set.seed(seed_modifier + seed_offset + i)
       
-      sim <- stats::rnorm(N, mu, sd)
-      if (!is.null(increment) && is.finite(increment) && increment > 0) {
-        sim <- round(sim / increment) * increment
-      }
+      # draw raw normal; round only for the returned sim
+      raw <- stats::rnorm(N, mu, sd)
+      sim <- if (!is.null(increment) && is.finite(increment) && increment > 0) {
+        round(raw / increment) * increment
+      } else raw
       # sim <- pmax(min_x, pmin(max_x, sim))
       
       last_sim <- sim
       
-      pval <- NA_real_
-      if (shapiro_ok_to_run && length(unique(sim)) >= 3) {
-        pval <- suppressWarnings(stats::shapiro.test(sim)$p.value)
+      # test on the unrounded draw
+      sim_test <- raw
+      
+      # sample skewness and *excess* kurtosis on test copy
+      sk  <- NA_real_; exk <- NA_real_
+      if (length(unique(sim_test)) >= 3) {
+        m <- mean(sim_test); s <- stats::sd(sim_test)
+        if (is.finite(s) && s > 0) {
+          z   <- (sim_test - m) / s
+          sk  <- mean(z^3)
+          exk <- mean(z^4) - 3
+        }
       }
       
+      # Shapiro–Wilk on the test copy
+      pval <- NA_real_
+      if (shapiro_ok_to_run && length(unique(sim_test)) >= 3) {
+        pval <- suppressWarnings(stats::shapiro.test(sim_test)$p.value)
+      }
+      
+      # track best by SW p-value (when available)
       if (!is.na(pval) && pval > best_p) {
         best_p  <- pval
         best_sim <- sim
       }
       
-      if (!is.na(pval) && pval > p_thresh) {
-        return(sim)  # accept immediately
+      # accept: SW passes (or is inapplicable) AND moments look normal
+      if ((is.na(pval) || pval > p_thresh) &&
+          !is.na(sk) && abs(sk) < t_sk &&
+          !is.na(exk) && abs(exk) < t_k) {
+        return(sim)
       }
       # Otherwise loop again
     }
     
-    # Fallback: best passing attempt if we found one, else last try
+    # Fallback: best SW-p attempt if we found one, else last try
     if (!is.null(best_sim)) return(best_sim)
     return(last_sim)
   }
@@ -166,6 +200,8 @@ generate_random_data_for_plot_grid <- function(
   })
   
   df_list       <- c(list(real = x), purrr::set_names(sims, paste0("sim", 1:(n - 1))))
+  shuffle_seed <- as.integer((as.numeric(Sys.time()) * 1e6) %% .Machine$integer.max)
+  set.seed(shuffle_seed)
   shuffled      <- sample(names(df_list))
   dfs           <- purrr::map(shuffled, ~data.frame(sample_data = df_list[[.x]], .type = .x))
   real_position <- which(shuffled == "real")

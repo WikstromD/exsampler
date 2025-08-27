@@ -19,13 +19,13 @@ generate_random_data_for_plot_grid(
 
 \item{variable_name}{Character; the name of the numeric column in \code{data} to simulate from.}
 
-\item{seed_modifier}{Integer; seed for \code{set.seed()}, so each click gives a new shuffle.}
+\item{seed_modifier}{Integer; seed for \code{set.seed()} (controls simulated draws; pane order is randomized per call).}
 
 \item{n}{Integer; total number of grids (1 real +7).}
 
 \item{match_increment}{Logical; if \code{TRUE}, rounds simulated values to the same increment as the real data (via \code{estimate_data_increment}).}
 
-\item{p_thresh}{Numeric; required Shapiro–Wilk p-value threshold (default 0.01).}
+\item{p_thresh}{Numeric; required Shapiro–Wilk p-value threshold (default 0.05; when applicable).}
 
 \item{max_attempts}{Integer; max resimulation attempts per simulated sample (default 50).}
 }
@@ -47,4 +47,14 @@ real data, then shuffle them together for a “find the real data” grid.
 \details{
 Ensures each simulated sample passes a Shapiro–Wilk normality test at
 p > \code{p_thresh} (defaults to 0.05), up to \code{max_attempts} retries (default = 50).
+Normality is tested on the unrounded draw; Shapiro–Wilk is run only for
+3 <= N <= 5000, and acceptance also requires small sample skewness and
+excess kurtosis (|skew| < 3\emph{sqrt(6/N), |excess kurtosis| < 3}sqrt(24/N)).
+
+Simulated values are returned rounded to the detected increment when
+\code{match_increment = TRUE}; tests are always run on the unrounded draw. If no
+attempt meets the accept criteria within \code{max_attempts}, the attempt with the
+highest Shapiro–Wilk p-value (when available) is returned; otherwise, the last
+attempt is returned. Degenerate inputs with non-finite or zero SD return a
+constant vector for that simulated panel.
 }

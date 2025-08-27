@@ -74,7 +74,7 @@ real data, then shuffle them together for a “find the real data” grid.</p>
 
 
 <dt id="arg-seed-modifier">seed_modifier<a class="anchor" aria-label="anchor" href="#arg-seed-modifier"></a></dt>
-<dd><p>Integer; seed for <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>, so each click gives a new shuffle.</p></dd>
+<dd><p>Integer; seed for <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> (controls simulated draws; pane order is randomized per call).</p></dd>
 
 
 <dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
@@ -86,7 +86,7 @@ real data, then shuffle them together for a “find the real data” grid.</p>
 
 
 <dt id="arg-p-thresh">p_thresh<a class="anchor" aria-label="anchor" href="#arg-p-thresh"></a></dt>
-<dd><p>Numeric; required Shapiro–Wilk p-value threshold (default 0.01).</p></dd>
+<dd><p>Numeric; required Shapiro–Wilk p-value threshold (default 0.05; when applicable).</p></dd>
 
 
 <dt id="arg-max-attempts">max_attempts<a class="anchor" aria-label="anchor" href="#arg-max-attempts"></a></dt>
@@ -104,7 +104,16 @@ real data, then shuffle them together for a “find the real data” grid.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Ensures each simulated sample passes a Shapiro–Wilk normality test at
-p &gt; <code>p_thresh</code> (defaults to 0.05), up to <code>max_attempts</code> retries (default = 50).</p>
+p &gt; <code>p_thresh</code> (defaults to 0.05), up to <code>max_attempts</code> retries (default = 50).
+Normality is tested on the unrounded draw; Shapiro–Wilk is run only for
+3 &lt;= N &lt;= 5000, and acceptance also requires small sample skewness and
+excess kurtosis (|skew| &lt; 3<em>sqrt(6/N), |excess kurtosis| &lt; 3</em>sqrt(24/N)).</p>
+<p>Simulated values are returned rounded to the detected increment when
+<code>match_increment = TRUE</code>; tests are always run on the unrounded draw. If no
+attempt meets the accept criteria within <code>max_attempts</code>, the attempt with the
+highest Shapiro–Wilk p-value (when available) is returned; otherwise, the last
+attempt is returned. Degenerate inputs with non-finite or zero SD return a
+constant vector for that simulated panel.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
