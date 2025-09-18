@@ -1,6 +1,6 @@
 #' Generates a dataset of example distributions
 #'
-#' Creates a data frame with various shaped distributions scaled to 1–10.
+#' Creates a data frame with various shaped distributions scaled to 1-10.
 #'
 #' @param n Number of samples to generate
 #' @param seed Random seed

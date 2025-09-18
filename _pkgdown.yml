@@ -1,4 +1,5 @@
-url: ~
+﻿url: https://wikstromd.github.io/exsampler
 template:
   bootstrap: 5
+  params: {}
 

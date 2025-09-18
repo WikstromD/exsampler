@@ -1,4 +1,5 @@
 ---
+md_extensions: -smart
 title: "Get started with exsampler"
 name: exsampler-get-started
 output: rmarkdown::html_vignette
@@ -7,13 +8,27 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r setup, include=FALSE}
+options(useFancyQuotes = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r, include=FALSE}
+skewness <- function(x, na.rm = TRUE) {
+  if (na.rm) x <- x[is.finite(x)]
+  m <- mean(x)
+  s <- stats::sd(x)
+  if (!is.finite(s) || s == 0) return(NA_real_)
+  mean((x - m)^3) / s^3
+}
+```
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse  = TRUE,
   comment   = "#>",
   fig.align = "center",
-  out.width = "80%",   # ← key line: scale images to 80% of the text column
+  out.width = "80%",   #  key line: scale images to 80% of the text column
   fig.retina = 2       # crisp on HiDPI (optional)
 )
 ```
@@ -22,7 +37,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**exsampler** is a tool to assist visual inspection of (non)normality. It displays a 3×3 grids of either histograms, QQ plots, detrended QQ plots, or PP Plots where one randomly assigned plot contains the real data and the eight other plots contain data sampled from simulated normal distributions (Shapiro–Wilk *p*'s \> 0.05) with the same number of observations*,* mean, and standard deviation (and optionally, the same rounding). Plots from simulated data help calibrate the user's eyes for visually inspecting the distribution of their data. Selecting a plot reveals the location of the real data.
+**exsampler** is a tool to assist visual inspection of (non)normality. It displays a 3x3 grids of either histograms, QQ plots, detrended QQ plots, or PP Plots where one randomly assigned plot contains the real data and the eight other plots contain data sampled from simulated normal distributions (Shapiro-Wilk *p*'s \> 0.05) with the same number of observations*,* mean, and standard deviation (and optionally, the same rounding). Plots from simulated data help calibrate the user's eyes for visually inspecting the distribution of their data. Selecting a plot reveals the location of the real data.
 
 Users can choose to view plots from an example dataset with labeled distributions, or use with their own data already loaded in their global environment.
 
@@ -42,32 +57,43 @@ pak::pak("WikstromD/exsampler")
 exsampler::run_app()
 ```
 
-## What you’ll see
+## What you'll see
 
-When you choose a variable and generate plots, the app displays a **3×3** **grid of panels**. One panel contains the real data; the rest are simulated datasets sampled from normal distributions with the same number of observations, mean, and standard deviation. Below is an illustrative example using the variable "Heavy_Right_Skew" from the example dataset included with `exsampler`.
+When you choose a variable and generate plots, the app displays a **3x3** **grid of panels**. One panel contains the real data; the rest are simulated datasets sampled from normal distributions with the same number of observations, mean, and standard deviation. Below is an illustrative example using the variable "Heavy_Right_Skew" from the example dataset included with `exsampler`.
 
--   **Histogram** – binned frequencies with density and normal curves using `ggplot2.`
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(exsampler)
+
+data("exSample_Distributions")
+
+x <- exSample_Distributions$Heavy_Right_Skew
+c(N = length(x), Median = round(median(x), 4), Mean = round(mean(x), 4),
+  SD = round(sd(x), 4), Skew = round(skewness(x), 4))
+```
+
+
+-   **Histogram** - binned frequencies with density and normal curves using `ggplot2.`
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 files <- sprintf("fig/250825HeavySkewHistogram.png", 1)
 knitr::include_graphics(files)
 ```
 
--   **QQ plot** – compares sample quantiles to a normal reference line using `qqplotr`.
+-   **QQ plot** - compares sample quantiles to a normal reference line using `qqplotr`.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 files <- sprintf("fig/250825HeavySkewQQ.png", 1)
 knitr::include_graphics(files)
 ```
 
--   **Detrended QQ plot** – compare quantiles' deviation from what's expected from a normal distribution using `qqplotr`.
+-   **Detrended QQ plot** - compare quantiles' deviation from what's expected from a normal distribution using `qqplotr`.
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 files <- sprintf("fig/250825HeavySkewDetrendedQQ.png", 1)
 knitr::include_graphics(files)
 ```
 
--   **PP plot** – plots the proportion of observations at or below each value against the proportion predicted by a normal model using `qqplotr`.
+-   **PP plot** - plots the proportion of observations at or below each value against the proportion predicted by a normal model using `qqplotr`.
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 files <- sprintf("fig/250825HeavySkewPP.png", 1)

@@ -2,3 +2,13 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^data-raw$
+^README\.Rmd$
+^README\.html$
+^index\.html$
+^index\.md$
+^vignettes/_metadata$

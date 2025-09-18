@@ -1,24 +1,18 @@
-#' Rescales a numeric vector to 1–10
+#' Rescales a numeric vector to 1-10
 #' 
 #' @param x A numeric vector
-#' @return A numeric vector scaled to 1–10
+#' @return A numeric vector scaled to 1-10
 #' @export
 scale_to_1_10 <- function(x) {
   scaled <- 1 + 9 * (x - min(x)) / (max(x) - min(x))
   round(scaled, 2)
 }
 
-#' Rescales a numeric vector to 0–10
+#' Rescales a numeric vector to 0-10
 #' 
 #' @param x Numeric vector.
-#' @return Numeric vector of same length, scaled to `0–10`.
+#' @return Numeric vector of same length, scaled to `0-10`.
 #' @export
-scale_to_0_10 <- function(x) {
-  rng <- range(x, na.rm = TRUE)
-  if (!is.finite(diff(rng)) || diff(rng) == 0) return(rep(0, length(x)))
-  10 * (x - rng[1]) / diff(rng)
-}
-
 scale_to_0_10 <- function(x) {
   rng <- range(x, na.rm = TRUE)
   if (!is.finite(diff(rng)) || diff(rng) == 0) return(rep(0, length(x)))
@@ -75,11 +69,11 @@ estimate_data_increment <- estimate_data_increment <- function(x, max_decimals =
 #'
 #' Simulate 7 additional samples from a normal distribution with the
 #' same mean, standard deviation, and (optionally) increment spacing as the
-#' real data, then shuffle them together for a “find the real data” grid.
+#' real data, then shuffle them together for a "find the real data" grid.
 #'
-#' Ensures each simulated sample passes a Shapiro–Wilk normality test at
+#' Ensures each simulated sample passes a Shapiro-Wilk normality test at
 #' p > `p_thresh` (defaults to 0.05), up to `max_attempts` retries (default = 50).
-#' Normality is tested on the unrounded draw; Shapiro–Wilk is run only for
+#' Normality is tested on the unrounded draw; Shapiro-Wilk is run only for
 #' 3 <= N <= 5000, and acceptance also requires small sample skewness and
 #' excess kurtosis (|skew| < 3*sqrt(6/N), |excess kurtosis| < 3*sqrt(24/N)).
 #'
@@ -88,12 +82,12 @@ estimate_data_increment <- estimate_data_increment <- function(x, max_decimals =
 #' @param seed_modifier Integer; seed for `set.seed()` (controls simulated draws; pane order is randomized per call).
 #' @param n Integer; total number of grids (1 real +7).
 #' @param match_increment Logical; if `TRUE`, rounds simulated values to the same increment as the real data (via `estimate_data_increment`).
-#' @param p_thresh Numeric; required Shapiro–Wilk p-value threshold (default 0.05; when applicable).
+#' @param p_thresh Numeric; required Shapiro-Wilk p-value threshold (default 0.05; when applicable).
 #' @param max_attempts Integer; max resimulation attempts per simulated sample (default 50).
 #'
 #' @return A list with elements:
 #' * `shuffled_data_frames`: a list of data.frames, each with columns
-#'   `sample_data` (the values) and `.type` (`"real"` or `"sim1"`, `"sim2"`, …), in random order.
+#'   `sample_data` (the values) and `.type` (`"real"` or `"sim1"`, `"sim2"`, ...), in random order.
 #' * `variable_name`: always `"sample_data"` (for downstream plotting).
 #' * `real_position`: the 1-based index in `shuffled_data_frames` where the real data landed.
 #' * `grid_cols`: integer number of columns for layout (fixed at 3).
@@ -101,7 +95,7 @@ estimate_data_increment <- estimate_data_increment <- function(x, max_decimals =
 #' @details Simulated values are returned rounded to the detected increment when
 #' `match_increment = TRUE`; tests are always run on the unrounded draw. If no
 #' attempt meets the accept criteria within `max_attempts`, the attempt with the
-#' highest Shapiro–Wilk p-value (when available) is returned; otherwise, the last
+#' highest Shapiro-Wilk p-value (when available) is returned; otherwise, the last
 #' attempt is returned. Degenerate inputs with non-finite or zero SD return a
 #' constant vector for that simulated panel.
 #'
@@ -114,13 +108,13 @@ generate_random_data_for_plot_grid <- function(
     n = 9,
     match_increment = TRUE,
     p_thresh = 0.05,
-    max_attempts = 50
+    max_attempts = 100
 ) {
   x  <- stats::na.omit(data[[variable_name]])
   mu <- mean(x); sd <- stats::sd(x); N <- length(x)
   # min_x <- min(x); max_x <- max(x)
   
-  # Shapiro–Wilk requires 3 <= n <= 5000 and non-constant data
+  # Shapiro-Wilk requires 3 <= n <= 5000 and non-constant data
   shapiro_ok_to_run <- N >= 3 && N <= 5000
   
   increment <- if (match_increment) estimate_data_increment(x) else NULL
@@ -137,7 +131,7 @@ generate_random_data_for_plot_grid <- function(
     best_sim <- NULL
     best_p   <- -Inf
     last_sim <- NULL
-    # N-aware thresholds (≈ 3×SE under normality)
+    # N-aware thresholds ( 3xSE under normality)
     t_sk <- 3 * sqrt(6 / N)
     t_k  <- 3 * sqrt(24 / N)
     
@@ -168,7 +162,7 @@ generate_random_data_for_plot_grid <- function(
         }
       }
       
-      # Shapiro–Wilk on the test copy
+      # Shapiro-Wilk on the test copy
       pval <- NA_real_
       if (shapiro_ok_to_run && length(unique(sim_test)) >= 3) {
         pval <- suppressWarnings(stats::shapiro.test(sim_test)$p.value)

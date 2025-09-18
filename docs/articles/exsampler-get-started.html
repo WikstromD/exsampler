@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Get started with exsampler • exsampler</title>
+<title>Get started with exsampler  exsampler</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -73,13 +73,13 @@
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
 <p><strong>exsampler</strong> is a tool to assist visual inspection of
-(non)normality. It displays a 3×3 grids of either histograms, QQ plots,
+(non)normality. It displays a 3x3 grids of either histograms, QQ plots,
 detrended QQ plots, or PP Plots where one randomly assigned plot
 contains the real data and the eight other plots contain data sampled
-from simulated normal distributions (Shapiro–Wilk <em>p</em>’s &gt;
+from simulated normal distributions (Shapiro-Wilk <em>p</em>'s &gt;
 0.05) with the same number of observations<em>,</em> mean, and standard
 deviation (and optionally, the same rounding). Plots from simulated data
-help calibrate the user’s eyes for visually inspecting the distribution
+help calibrate the user's eyes for visually inspecting the distribution
 of their data. Selecting a plot reveals the location of the real
 data.</p>
 <p>Users can choose to view plots from an example dataset with labeled
@@ -103,38 +103,38 @@ the following code:</p>
 <code class="sourceCode R"><span><span class="fu">exsampler</span><span class="fu">::</span><span class="fu"><a href="../reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="what-youll-see">What you’ll see<a class="anchor" aria-label="anchor" href="#what-youll-see"></a>
+<h3 id="what-youll-see">What you'll see<a class="anchor" aria-label="anchor" href="#what-youll-see"></a>
 </h3>
 <p>When you choose a variable and generate plots, the app displays a
-<strong>3×3</strong> <strong>grid of panels</strong>. One panel contains
+<strong>3x3</strong> <strong>grid of panels</strong>. One panel contains
 the real data; the rest are simulated datasets sampled from normal
 distributions with the same number of observations, mean, and standard
 deviation. Below is an illustrative example using the variable
-“Heavy_Right_Skew” from the example dataset included with
+"Heavy_Right_Skew" from the example dataset included with
 <code>exsampler</code>.</p>
 <ul>
 <li>
-<strong>Histogram</strong> – binned frequencies with density and
+<strong>Histogram</strong> - binned frequencies with density and
 normal curves using <code>ggplot2.</code>
 </li>
 </ul>
 <p><img src="fig/250825HeavySkewHistogram.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
-<strong>QQ plot</strong> – compares sample quantiles to a normal
+<strong>QQ plot</strong> - compares sample quantiles to a normal
 reference line using <code>qqplotr</code>.</li>
 </ul>
 <p><img src="fig/250825HeavySkewQQ.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
-<strong>Detrended QQ plot</strong> – compare quantiles’ deviation
-from what’s expected from a normal distribution using
+<strong>Detrended QQ plot</strong> - compare quantiles' deviation
+from what's expected from a normal distribution using
 <code>qqplotr</code>.</li>
 </ul>
 <p><img src="fig/250825HeavySkewDetrendedQQ.png" width="80%" style="display: block; margin: auto;"></p>
 <ul>
 <li>
-<strong>PP plot</strong> – plots the proportion of observations at
+<strong>PP plot</strong> - plots the proportion of observations at
 or below each value against the proportion predicted by a normal model
 using <code>qqplotr</code>.</li>
 </ul>

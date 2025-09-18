@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{scale_to_0_10}
 \alias{scale_to_0_10}
-\title{Rescales a numeric vector to 0–10}
+\title{Rescales a numeric vector to 0-10}
 \usage{
 scale_to_0_10(x)
 }
@@ -10,8 +10,8 @@ scale_to_0_10(x)
 \item{x}{Numeric vector.}
 }
 \value{
-Numeric vector of same length, scaled to \verb{0–10}.
+Numeric vector of same length, scaled to \code{0-10}.
 }
 \description{
-Rescales a numeric vector to 0–10
+Rescales a numeric vector to 0-10
 }

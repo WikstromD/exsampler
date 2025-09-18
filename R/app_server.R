@@ -172,7 +172,7 @@ observeEvent(selected_data(), {
       qq_normal = HTML("
 <div style='font-size:120%;'>
   <p></p>
-  <p><b>QQ plots</b> compare your data’s sample quantiles (dots) to the theoretical normal quantiles (reference line).</p>
+  <p><b>QQ plots</b> compare your data's sample quantiles (dots) to the theoretical normal quantiles (reference line).</p>
   <p>When the data are normal, points lie close to a straight line with small random deviations.</p>
 </div>
 "),

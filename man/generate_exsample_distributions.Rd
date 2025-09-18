@@ -15,5 +15,5 @@ generate_exsample_distributions(n = 1000, seed = 123)
 A data.frame of simulated distributions
 }
 \description{
-Creates a data frame with various shaped distributions scaled to 1–10.
+Creates a data frame with various shaped distributions scaled to 1-10.
 }

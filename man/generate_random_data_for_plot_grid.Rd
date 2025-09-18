@@ -11,7 +11,7 @@ generate_random_data_for_plot_grid(
   n = 9,
   match_increment = TRUE,
   p_thresh = 0.05,
-  max_attempts = 50
+  max_attempts = 100
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ generate_random_data_for_plot_grid(
 
 \item{match_increment}{Logical; if \code{TRUE}, rounds simulated values to the same increment as the real data (via \code{estimate_data_increment}).}
 
-\item{p_thresh}{Numeric; required Shapiro–Wilk p-value threshold (default 0.05; when applicable).}
+\item{p_thresh}{Numeric; required Shapiro-Wilk p-value threshold (default 0.05; when applicable).}
 
 \item{max_attempts}{Integer; max resimulation attempts per simulated sample (default 50).}
 }
@@ -33,7 +33,7 @@ generate_random_data_for_plot_grid(
 A list with elements:
 \itemize{
 \item \code{shuffled_data_frames}: a list of data.frames, each with columns
-\code{sample_data} (the values) and \code{.type} (\code{"real"} or \code{"sim1"}, \code{"sim2"}, …), in random order.
+\code{sample_data} (the values) and \code{.type} (\code{"real"} or \code{"sim1"}, \code{"sim2"}, ...), in random order.
 \item \code{variable_name}: always \code{"sample_data"} (for downstream plotting).
 \item \code{real_position}: the 1-based index in \code{shuffled_data_frames} where the real data landed.
 \item \code{grid_cols}: integer number of columns for layout (fixed at 3).
@@ -42,19 +42,19 @@ A list with elements:
 \description{
 Simulate 7 additional samples from a normal distribution with the
 same mean, standard deviation, and (optionally) increment spacing as the
-real data, then shuffle them together for a “find the real data” grid.
+real data, then shuffle them together for a "find the real data" grid.
 }
 \details{
-Ensures each simulated sample passes a Shapiro–Wilk normality test at
+Ensures each simulated sample passes a Shapiro-Wilk normality test at
 p > \code{p_thresh} (defaults to 0.05), up to \code{max_attempts} retries (default = 50).
-Normality is tested on the unrounded draw; Shapiro–Wilk is run only for
+Normality is tested on the unrounded draw; Shapiro-Wilk is run only for
 3 <= N <= 5000, and acceptance also requires small sample skewness and
 excess kurtosis (|skew| < 3\emph{sqrt(6/N), |excess kurtosis| < 3}sqrt(24/N)).
 
 Simulated values are returned rounded to the detected increment when
 \code{match_increment = TRUE}; tests are always run on the unrounded draw. If no
 attempt meets the accept criteria within \code{max_attempts}, the attempt with the
-highest Shapiro–Wilk p-value (when available) is returned; otherwise, the last
+highest Shapiro-Wilk p-value (when available) is returned; otherwise, the last
 attempt is returned. Degenerate inputs with non-finite or zero SD return a
 constant vector for that simulated panel.
 }
