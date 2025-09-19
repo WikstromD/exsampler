@@ -17,6 +17,8 @@ navbar:
       menu:
         - text: Get started
           href: articles/exsampler-get-started.html
+        - text: References
+          href: articles/exsampler-references.html
     news:
       text: Changelog
       href: news/index.html
