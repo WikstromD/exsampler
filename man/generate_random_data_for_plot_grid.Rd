@@ -11,7 +11,7 @@ generate_random_data_for_plot_grid(
   n = 9,
   match_increment = TRUE,
   p_thresh = 0.05,
-  max_attempts = 100
+  max_attempts = 1000
 )
 }
 \arguments{

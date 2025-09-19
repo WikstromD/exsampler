@@ -8,6 +8,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 ```{r setup, include=FALSE}
 options(useFancyQuotes = FALSE)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
@@ -70,7 +71,6 @@ x <- exSample_Distributions$Heavy_Right_Skew
 c(N = length(x), Median = round(median(x), 4), Mean = round(mean(x), 4),
   SD = round(sd(x), 4), Skew = round(skewness(x), 4))
 ```
-
 
 -   **Histogram** - binned frequencies with density and normal curves using `ggplot2.`
 

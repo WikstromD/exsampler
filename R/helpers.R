@@ -108,7 +108,7 @@ generate_random_data_for_plot_grid <- function(
     n = 9,
     match_increment = TRUE,
     p_thresh = 0.05,
-    max_attempts = 100
+    max_attempts = 1000
 ) {
   x  <- stats::na.omit(data[[variable_name]])
   mu <- mean(x); sd <- stats::sd(x); N <- length(x)
