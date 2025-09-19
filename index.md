@@ -12,8 +12,5 @@ This application is intended for educational purposes and not meant for formal a
 
 **Read more:** - [Get started](articles/exsampler-get-started.html) - [References](articles/exsampler-references.html)
 
-```{=html}
-<img src="man/figures/250825HeavySkewHistogram.png"
-     alt="Histogram grid with one real panel and eight normal sims"
-     style="display:block;margin:1rem auto;max-width:90%;">
-```
+![Heavy skew histogram](man/figures/250825HeavySkewHistogram.png)
+
